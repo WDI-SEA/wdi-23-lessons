@@ -16,6 +16,7 @@ A program can be read from top to bottom, but eventually we'll need ways to **sk
 2. [switch](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch)
 3. [while](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while)
 4. [for](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for)
-5. [for...in](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in)
+5. [for...of](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of)
+6. [for...in](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in)
 
 But before that, let's create the expressions needed for these statements.

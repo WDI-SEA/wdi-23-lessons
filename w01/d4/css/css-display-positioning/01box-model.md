@@ -22,19 +22,20 @@ But what do these different layers mean, and how are they relating to one anothe
 * does NOT have a background color (transparent)
 
 **Border** 
-* _inside the element_
+* outside the width and height
 * a border that goes around the padding and content;
 * it IS affected by the background color of the element
 
 **Padding**
-* _inside the element_
+* outside the width and height
 * clears an area between the content and the border
-* it IS affected by the background color of the element
+* transparent so it takes on the background color of the element
 
 **Content**
 * _inside the element_
+* width and height properties affect content
 * where text and images appear
-* it IS affected by the background color of the element
+* affected by the color of the element
 
 ---
 

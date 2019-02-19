@@ -30,7 +30,7 @@ Not equal - `<>`
 - % - SELECT * FROM students WHERE name LIKE '%b';
 ```
 
-Let's suppose we have a *customer* table with the following data:
+Let's create a *customers* table with the following data:
 
 ```sql
  id |  name   | age |  country  | salary 
@@ -43,6 +43,25 @@ Let's suppose we have a *customer* table with the following data:
   6 | Komal   |     |           |   4500
 ```
 
+You can use these SQL statements to create it:
+
+```sql
+CREATE TABLE customers (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(25),
+  age INTEGER,
+  country VARCHAR(25),
+  salary INTEGER
+);
+
+INSERT INTO customers (name, age, country, salary) VALUES ('Ramesh', 32, 'Ahmedabad', 2000);
+INSERT INTO customers (name, age, country, salary) VALUES ('Kaushik', 23, 'Kota', 2000);
+INSERT INTO customers (name, age, country, salary) VALUES ('Ramesh', 25, null, 1500);
+INSERT INTO customers (name, age, country, salary) VALUES ('Kaushik', 25, 'Mumbai', null);
+INSERT INTO customers (name, age, country, salary) VALUES ('Hardik', 27, 'Bhopal', 8500);
+INSERT INTO customers (name, age, country, salary) VALUES ('Komal', null, null, 4500);
+```
+
 ## COUNT()
 
 COUNT() is an *aggregate function*.
@@ -51,29 +70,29 @@ COUNT() is an *aggregate function*.
 
 We use an aggregate function to get the total count of customers in a table.
 ```sql
-SELECT COUNT(*) FROM customer;
+SELECT COUNT(*) FROM customers;
 ```
 
 What about getting the count of something more specific in customer, such as the number of rows that have the age datapoint? 
 ```sql
-SELECT COUNT(age) FROM customer;
+SELECT COUNT(age) FROM customers;
 ```
 
 ## GROUP BY
 
 GROUP BY is used to pull together identical data points. For example, say we just want to see the different ages we have in our customer table, without having to look through the duplicates too.
 ```sql
-SELECT age FROM customer GROUP BY age;
+SELECT age FROM customers GROUP BY age;
 ```
 
 What if we just want to know how many different ages we have? We can combine GROUP BY and COUNT():
 ```sql
-SELECT age, COUNT(age) FROM customer GROUP BY age;
+SELECT age, COUNT(age) FROM customers GROUP BY age;
 ```
 
 Or maybe we want the average salaries of the customers from each country:
 ```sql
-SELECT country, AVG(salary) FROM customer GROUP BY country;
+SELECT country, AVG(salary) FROM customers GROUP BY country;
 ```
 
 ### Aliases
@@ -81,33 +100,17 @@ SELECT country, AVG(salary) FROM customer GROUP BY country;
 Aliases are a piece of a SQL query that allows you to temporarily rename a table or column for the current query.
 
 ```sql
-SELECT country, avg(salary) AS avgSal FROM customer GROUP BY country;
+SELECT country, avg(salary) AS avgSal FROM customers GROUP BY country;
 ```
 
 ### Alter Table Command
 
 ```sql
-ALTER TABLE customer ADD COLUMN date DATE;
+ALTER TABLE customers ADD COLUMN date DATE;
 
-ALTER TABLE customer ALTER COLUMN name SET NOT NULL;
+ALTER TABLE customers ALTER COLUMN name SET NOT NULL;
 
-ALTER TABLE customer DROP date;
-```
-
-### FOREIGN KEYS
-
-This is where the **relational** part comes in! Foreign keys allow entries in one table to refer to entires in another table.
-
-What are some examples of when this would be useful?
-* (library) books table references an authors table
-* (elementary school) a students table refereces a classes table, which references teachers table, which references a schools table, which references a districts table, etc.
-
-```sql
-CREATE TABLE merch_order (
-	id SERIAL PRIMARY KEY,
-	num_items INTEGER,
-	customer_id INTEGER REFERENCES customer(id)
-);
+ALTER TABLE customers DROP date;
 ```
 
 ### Nested queries
@@ -117,7 +120,7 @@ What if I want to get names of customers with the highest salary.
 Let's try it using WHERE
 
 ```sql
-SELECT name, salary FROM customer
+SELECT name, salary FROM customers
 WHERE salary = MAX(salary);
 ```
 
@@ -126,9 +129,9 @@ That will give us an error, because MAX is an aggregate function and can't be us
 This will return the maximum rating, which we need to feed into WHERE.
 
 ```sql
-SELECT name, salary FROM customer
+SELECT name, salary FROM customers
 WHERE salary = (
-	SELECT MAX(salary) FROM customer
+	SELECT MAX(salary) FROM customers
 );
 ```
 
@@ -144,43 +147,67 @@ SELECT name,
 		THEN 'young adult'
 		ELSE 'adult' 
 		END AS age_group 
-FROM customer;
+FROM customers;
+```
+
+### FOREIGN KEYS
+
+This is where the **relational** part comes in! Foreign keys allow entries in one table to refer to entires in another table.
+
+What are some examples of when this would be useful?
+* (library) books table references an authors table
+* (elementary school) a students table refereces a classes table, which references teachers table, which references a schools table, which references a districts table, etc.
+
+Let's create a table to join with our customers:
+
+```sql
+CREATE TABLE orders (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(50),
+  quantity INTEGER,
+	customer_id INTEGER REFERENCES customers(id)
+);
+```
+
+And let's put in some test data to play with:
+
+```sql
+INSERT INTO orders (name, quantity, customer_id) VALUES ('Books', 5, 1);
+INSERT INTO orders (name, quantity, customer_id) VALUES ('DVDs', 1, 1);
+INSERT INTO orders (name, quantity, customer_id) VALUES ('Pet Food', 2, 3);
+INSERT INTO orders (name, quantity, customer_id) VALUES ('Laptop', 1, 5);
+INSERT INTO orders (name, quantity, customer_id) VALUES ('Clothing', 3, 2);
+INSERT INTO orders (name, quantity, customer_id) VALUES ('Batteries', 10, 2);
+INSERT INTO orders (name, quantity, customer_id) VALUES ('Xylophones', 5, 2);
+INSERT INTO orders (name, quantity, customer_id) VALUES ('Pencils', 2, 4);
 ```
 
 ### JOINs
 
 INNER JOIN gives us the intersections of tables (or the rows that are the same in each table involved in the join).
 
-Suppose we have a second table of subscribers like so:
+We have our customers table and now an orders table. If we wanted to get a data set with all the customers and their orders, we could use a INNER JOIN command to relate the data and return the results:
 
 ```sql
- id |  name  | catalog | email 
-----+--------+---------+-------
-  1 | Ramesh | 0       | 1
-  2 | Komal  | 1       | 0
-  3 | Busak  | 1       | 1
-  4 | Reg    | 0       | 1
-  5 | Hardik | 1       | 1
+SELECT * FROM customers
+INNER JOIN orders
+ON customers.id = orders.customer_id;
 ```
 
-And we want to see which of our subscribers have become customers.
+The INNER JOIN is the default type of JOIN, so we could simply use the command JOIN and omit the "INNER". Inner joins only returns the records from both tables where there is matching data. So the INNER JOIN will not include any customers if they haven't purchased anything.
+
+LEFT JOIN is similar to INNER JOIN, except it will include *all* rows from the left table (the first table listed in the query).
 
 ```sql
-SELECT * FROM customer 
-INNER JOIN subscriber 
-ON customer.name=subscriber.name;
+SELECT * FROM customers
+LEFT JOIN orders
+ON customers.id = orders.customer_id;
 ```
 
-LEFT JOIN is similar to INNER JOIN, except it will include *all* rows from the left table (the first table listed in the query). Similarly, RIGHT JOIN will include all the rows from the right table.
+Similarly, RIGHT JOIN will include all the rows from the right table.
 
 ```sql
-SELECT * FROM customer
-LEFT JOIN subscriber 
-ON customer.name=subscriber.name;
-```
-
-```sql
-SELECT * FROM customer
-RIGHT JOIN subscriber 
-ON customer.name=subscriber.name;
+SELECT * FROM customers
+RIGHT JOIN orders
+ON customer.id = orders.customer_id;
 ```

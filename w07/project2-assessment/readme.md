@@ -51,7 +51,7 @@ Please follow the following steps in order:
 
 ### STEP 2 - Set up the Project
 
-- Create a folder named `project-3-assessment`.
+- Create a folder named `project-2-assessment`.
 - Initialize a git repository in that folder.
 - Create a new `server.js` file in the folder.
 - Initialize a new npm project in the folder.

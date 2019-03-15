@@ -8,6 +8,7 @@ You'd like to show people what you can do, so to really impress them you're goin
 You will use the [OpenWeather API](http://openweathermap.org/current) to fetch the weather from a certain zip code and update the home page to reflect the current weather.
 - Here is the [documentation for the weather API](http://openweathermap.org/current).
 - If you'd like, you can read about `fetch` in general on MDN [here](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch).
+- Alternatively, you can practice using `axios` for this lab. [Axios Docs](https://github.com/axios/axios)
 
 At the end of this exercise, your solution will look something like this:
 

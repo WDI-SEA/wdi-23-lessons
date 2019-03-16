@@ -388,7 +388,7 @@ export default App
 
 > Check it out! Does yours work?
 
-## One Last Thing - Rendering Components with Props
+## Rendering Components with Props
 
 This is very cool but it lacks some very important functionality. We only know how to render a default component but we know that we frequently want to give our components props. How do we do that with React Router?
 
@@ -420,3 +420,44 @@ We would normally want to pass this data into our Procedures component as props 
 By using `render` we can pass in a function that will render a component. We can pass in our procedures now as props. We must use `render` and pass in a function in order to render a component with props.
 
 Let's update out Procedures component to render this new data. Go into the Procedures component and add the mapping to render this array into the page nicely.
+
+## Route Parameters in React Router
+
+The last thing we need to know how to do in router is pass parameters via our routes. Recall that we were able to do this in Express by including a colon in the route path followed by a variable name:
+
+```js
+app.get("/widgets/:id", ...)
+```
+
+This allows a variable value to be passed in as part of the URL. When this value landed in our route, we were able to access it via `req.params`.
+
+React Router has very similar functionality. When we are defining the paths in our `<Route>` components, we can specify a route parameter by including the same colon followed by a variable name:
+
+```js
+<Route path='/widgets/:id' ...
+```
+
+Now, we can put variable values onto the end of our Link URLs when linking to this Route. But where do they show up? There is a special set of props that are passed into our component from the Route component but we have to add a little code to make them show up. First, the router must be using the `render` method and not the `component` method. This is because we must pass in props. Set your parameterized route up like so:
+
+```js
+<Route path='/widgets/:id' render={(props) => <WidgetShow {...props} />} />
+// Router provides the props here   ^^^^^ and we pass them in ^^^^^ here to our component.
+```
+
+That syntax `{...props}` is unpacking all of the props in the props object so that they are passed into our component as individual props. The one we are interested in is called `match`. We can find it in our component in `this.props` for class-based components or just `props` for function-based components. Here is how we might access it in our component:
+
+```js
+import React from 'react';
+
+const WidgetShow = (props) => {
+  return (
+    <div>
+      <h1>You entered this URL parameter: {props.match.params.id}</h1>
+    </div>
+  )
+}
+
+export default WidgetShow;
+```
+
+Because the route parameter is passed in via props, we can easily reference it to find the item associated with the parameter. Frequently, we use this to display the details of one specific item in a collection, like in our READ ONE routes.

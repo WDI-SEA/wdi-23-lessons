@@ -56,7 +56,7 @@ export const colors = ['black', 'blue', 'green', 'rebeccapurple', 'red', 'whites
 //make sure that the Context matches the signature that your Consumer will expect later
 export const ColorContext = React.createContext({
   color: '',
-  changeColor: () => {} // emtpy function <= we will assign a function to this later
+  changeColor: () => {} // emtpy function <= we will apply a function to in our Provider
 });
 ```
 
@@ -133,7 +133,7 @@ export function Colorbutton(props) {
 
 ```
 ### Accessing Context in Class Components
-Class Components offer another method of accessing Context data by assigning a context to through the `Component.contextType` property. This method only works when access to a single Context is required.
+Class Components offer another method of accessing Context data by assigning a context to the `Component.contextType` property. This method only works when access to a single Context is required.
 ```js
 import React from 'react';
 import { ColorContext } from './ColorContext'

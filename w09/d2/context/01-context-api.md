@@ -183,7 +183,7 @@ The [new Hooks API*](https://reactjs.org/docs/hooks-reference.html#usecontext) h
 
 ___
 ## Alternatives to Context
-- [The Component Composition Patterns](https://reactjs.org/docs/composition-vs-inheritance.html)
+- [Component Composition Patterns](https://reactjs.org/docs/composition-vs-inheritance.html)
 
 Containment
 ```js
@@ -211,34 +211,6 @@ render() {
  ```
 Passed 
 ```js
-//App.js
-import React, { Component } from 'react';
-import {Parent} from './Parent'
-import {UsedDownTheTree} from './UsedDownTheTree';
-import './App.css';
-
-class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      user: 'GLaDOS',
-      message: "I don't like lemonade"
-    }
-  }
-
-
-  render() {
-    let usedDownTheTree = <UsedDownTheTree name={this.state.user} message={this.state.message}/>
-    return (
-      <div className="App">
-          <Parent usedDownTheTree={usedDownTheTree}/>
-      </div>
-    );
-  }
-}
-
-export default App;
-
 //Parent.jsx
 import React from 'react';
 import { ChildOne } from './ChildOne'
@@ -271,6 +243,35 @@ export function UsedDownTheTree(props) {
     </>
   )
 }
+
+//App.js
+import React, { Component } from 'react';
+import {Parent} from './Parent'
+import {UsedDownTheTree} from './UsedDownTheTree';
+import './App.css';
+
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      user: 'GLaDOS',
+      message: "I don't like lemonade"
+    }
+  }
+
+
+  render() {
+    let usedDownTheTree = <UsedDownTheTree name={this.state.user} message={this.state.message}/>
+    return (
+      <div className="App">
+          <Parent usedDownTheTree={usedDownTheTree}/>
+      </div>
+    );
+  }
+}
+
+export default App;
+
 
 ```
 

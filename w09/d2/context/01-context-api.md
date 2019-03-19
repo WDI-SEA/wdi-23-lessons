@@ -67,7 +67,7 @@ Import the Context (and any data) into the Component that you intend to provide 
 ```js
 /* App.js */
 ...
-import { ColorContext, color } from './ColorContext';
+import { ColorContext, colors } from './ColorContext';
 ...
 ```
 Wrap the portion of your Component tree in which you intend to use the data with a Context Provider and pass the data to it as a `value` prop.
@@ -183,7 +183,9 @@ The [new Hooks API*](https://reactjs.org/docs/hooks-reference.html#usecontext) h
 
 ___
 ## Alternatives to Context
-- [The Containment Component Composition Pattern](https://reactjs.org/docs/composition-vs-inheritance.html)
+- [The Component Composition Patterns](https://reactjs.org/docs/composition-vs-inheritance.html)
+
+Containment
 ```js
 // ParentContainer.jsx
 export const ParentContainer = props => {
@@ -207,4 +209,69 @@ render() {
 }
 ...
  ```
+Passed 
+```js
+//App.js
+import React, { Component } from 'react';
+import {Parent} from './Parent'
+import {UsedDownTheTree} from './UsedDownTheTree';
+import './App.css';
+
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      user: 'GLaDOS',
+      message: "I don't like lemonade"
+    }
+  }
+
+
+  render() {
+    let usedDownTheTree = <UsedDownTheTree name={this.state.user} message={this.state.message}/>
+    return (
+      <div className="App">
+          <Parent usedDownTheTree={usedDownTheTree}/>
+      </div>
+    );
+  }
+}
+
+export default App;
+
+//Parent.jsx
+import React from 'react';
+import { ChildOne } from './ChildOne'
+
+export function Parent(props) {
+  return (
+    <ChildOne {...props} />
+  )
+}
+
+// ChildOne.jsx
+import React from 'react';
+
+export function ChildOne(props) {
+  return (
+    <div>
+      {props.usedDownTheTree}
+    </div>
+    )
+}
+
+// UsedDownTheTree.jsx
+import React from 'react';
+
+export function UsedDownTheTree(props) {
+  return(
+    <>
+      <h1>Hello, {props.name ? props.name : 'World!'}</h1>
+      <h3>{props.message ? props.message : '' }</h3>
+    </>
+  )
+}
+
+```
+
 - Redux - [Docs](https://redux.js.org/basics/usage-with-react)

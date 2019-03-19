@@ -33,7 +33,14 @@ You may have already been using Context whether you knew it or not. React Router
 <Link to='/issues'>Issues</Link>
 <Link to='/pullrequests'>Pull Requests</Link>
 ```
+## Appropriate Use Cases
+- Authenticated User Data
+- Theming
+- Localization data
 
+>Context is primarily used when some data needs to be accessible by many components at different nesting levels. Apply it sparingly because it makes component reuse more difficult.
+
+___
 ## Using Context
 
 ### Create a Context
@@ -92,11 +99,9 @@ class App extends Component {
 ### Context Consumers
 Within the child component where data should be displayed, import the Context and wrap the portion of the component with a `Context.Consumer`. Your context data will be accessible through an anonymous function.
 
-
-
-Accessing Data:
+### Accessing Context in Function Components
 ```js
-// ColorPane.jsx
+/* ColorPane.jsx */
 export function ColorPane(props) {
   return(
     <ColorContext.Consumer>
@@ -116,25 +121,65 @@ export function ColorPane(props) {
   )
 }
 ```
-Using the changeColor method:
 ```js
+/* ColorButton.jsx */
+export function Colorbutton(props) {
+  return(
+    {
+      ({changeColor}) => <button onClick={changeColor}>CHANGE THE COLOR</button> // yup, just like that
+    }
+  )
+}
 
+```
+### Accessing Context in Class Components
+Class Components offer another method of accessing Context data by assigning a context to through the `Component.contextType` property. This method only works when access to a single Context is required.
+```js
+import React from 'react';
+import { ColorContext } from './ColorContext'
+
+class ColorPane extends React.Component {
+  render() {
+    let style = {
+      background: this.context.color, // We can access data in the this.context object
+      height: "200px", 
+      width: "200px"
+    }
+
+    return (
+      <div style={style}></div>
+    )
+  }
+}
+
+ColorPane.contextType = ColorContext; // Assign context after class is defined
+
+export default ColorPane;
+```
+
+### Accessing Multiple Contexts
+You can use data from multiple Contexts in the following manner
+```js
+...
+<ColorContext.Consumer>
+  { ({color}) => (
+      <UserContext.Consumer>
+      { user => (
+          <MyComponent user={user} themeColor={color} />
+        ) 
+      }
+      </UserContext.Consumer>
+    )
+  }
+</ColorContext.Consumer>
+
+...
 
 ```
 
-### Accessing Context in Function Components
+### Note on Hooks
 
-### Accessing Context in Class Components
-
-
-### Accessing Multiple Contexts
-
-## Appropriate Use Cases
-- Authenticated User Data
-- Theming
-- Localization data
-
->Context is primarily used when some data needs to be accessible by many components at different nesting levels. Apply it sparingly because it makes component reuse more difficult.
+The [new Hooks API*](https://reactjs.org/docs/hooks-reference.html#usecontext) has provided a `useContext` hook to allow access to your Contexts within function components.
 
 ___
 ## Alternatives to Context

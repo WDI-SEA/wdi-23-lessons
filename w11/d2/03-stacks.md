@@ -12,6 +12,8 @@ The `Array` class built-into JavaScript is much more dynamic and full-featured: 
 
 ## What is a Stack?
 
+![Stack](https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Data_stack.svg/2000px-Data_stack.svg.png)
+
 A **Stack** is an array-like structure. You can think of it as a vertical stack with elements piled on top of each other. It has only two operations built into it:
 
 * **push**: This function adds the argument passed in to the top of the stack.

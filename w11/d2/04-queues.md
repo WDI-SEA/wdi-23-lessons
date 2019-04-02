@@ -2,6 +2,8 @@
 
 If we were all from England, we would have no problem understanding this data structure. The Brits use the term "queue" to refer to a line of people waiting for service. It's like the old saying, "First come, first served." The data structure is exactly the same thing. It is another Array-like structure that stores data for processing in a very specific order.
 
+![Queue](https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Data_Queue.svg/300px-Data_Queue.svg.png)
+
 The queue is a **first in, first out** (or FIFO) data structure which means that the first element added to the queue will be the first one removed and processed. It implements only two functions:
 
 * **enqueue**: This function works like `push`. It takes one parameter and it inserts it into the queue in the last place position.

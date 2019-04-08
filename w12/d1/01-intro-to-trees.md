@@ -43,14 +43,14 @@ Trees are harder to iterate over. Each Tree Node splits into two more, on it's
 left and right side. There's no one straight path through a tree. How could we
 iterate through a tree?
 
-The answer. Is Recursion. For each Tree Node we can print out it's `data`, then
+The answer is Recursion. For each Tree Node we can print out it's `data`, then
 print out the data for it's left and right side. Traversing a tree looks like this:
 
 ```python
 def in_order_traverse(node):
   if node != None:
-    print(node.data)
     in_order_traverse(node.left)
+    print(node.data)
     in_order_traverse(node.right)
 ```
 

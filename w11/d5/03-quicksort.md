@@ -4,9 +4,9 @@ Another very popular fast sorting algorithm, Quicksort has an interesting way of
 
 Let's start by looking at the key players in this sort:
 
-* **left**: A marker used for finding numbers lower than the pivot. It moves one element at a time from the leftmost position until it finds a value greater than or equal to the pivot value. If it ever reaches the rightmost edge of the array, it stops.
+* **left**: A marker used for finding numbers higher than the pivot. It moves one element at a time from the leftmost position until it finds a value greater than or equal to the pivot value. If it ever reaches the rightmost edge of the array, it stops.
 
-* **right**: A marker used for finding numbers higher than the pivot. It moves one element at a time from the rightmost position until it finds a value less than the pivot. If it ever reaches the **left** marker, it stops.
+* **right**: A marker used for finding numbers less than the pivot. It moves one element at a time from the rightmost position until it finds a value less than the pivot. If it ever reaches the **left** marker, it stops.
 
 * **pivot**: An initially randomly chosen element in the array. It's value is meant to be the point around which things swap: higher numbers go to the right while lower numbers go to the left. Basically, when the **right** and **left** find their values that are lower or higher than the pivot, respectively, those values are swapped. Though it can be chosen randomly, many basic implementations simply use the leftmost or rightmost element as the initial pivot.
 
@@ -30,8 +30,8 @@ Quicksort is a two-parter like merge sort. We have the actual `quicksort` functi
 
 The `partition` function does the heavy lifting. This partition scheme is called Hoare's Partition Scheme and he is the person who invented quicksort. It takes the same parameters as quicksort: the array, the left index and the right index.
 
-1. Get the value in the middle of the array and store this as the pivot value.
-2. Set `i` to be "left" and set `j` to be "right". (many uses of Hoare's partition use a `do...while` construct that is absent in python's standard library and will show `i = left - 1` and `j = right + 1`... **this will not work with this python implementation**)
+1. Get the value at array index "left" and store this as the pivot value.
+2. Set `i` to be "left" and set `j` to be "right". (many uses of Hoare's partition use a `do...while` construct that is absent in python's standard library and will show `i = left - 1` and `j = right + 1`... **this will not work with this python implentation**)
 3. Now inside of an infinite loop, do the following:
     1. Increment `i` by 1 while the value in the array at that index is less than the pivot value.
     2. Decrement `j` by 1 while the value in the array at that index is greater than the pivot value.

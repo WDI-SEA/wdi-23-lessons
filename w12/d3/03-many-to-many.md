@@ -41,7 +41,7 @@ Go ahead and add this model to the `main_app/admin.py`:
 
 ```python
 # Add the CatToy model to this import line
-from .models import Cat, Feeding, CatToy
+from .models import Cat, CatToy
 
 # Register the model below the others
 ...
@@ -227,112 +227,20 @@ class CatUpdate(UpdateView):
     fields = ['name', 'breed', 'description', 'age', 'cattoys']
 ```
 
-Save everything and then try to create a new Cat. Notice how we can't really see the cat toys? This is an issue with Materialize that many people have run into. So many, in fact, that there exists a Python module that will fix many of the issues simply by it being installed in the app. Let's get it installed! Run the following command:
-
-```bash
-pip3 install django-materializecss-form
-```
-
-Once that finishes installing, we can add it to our `INSTALLED_APPS` section of our `settings.py`. Add it to the list as the last line, like below:
-
-```python
-# catcollector/settings.py
-...
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'main_app',
-    'materializecssform', 
-]
-...
-```
-
-Then we need to update our `base.html` where we use Materialize. We are going to move a couple things around. First, up in the `<head>`, there are two CSS file links. They need to be wrapped in a special template tag like so:
-
-```html
-<!-- base.html -->
-...
-    <title>CatCollector</title>
-    <!-- Add this tag -->
-    {% block css %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
-    <!-- Add this tag -->
-    {% endblock css %}
-</head>
-```
-
-This lets the module know that we are importing CSS files into our templates. We need to do the same thing with that Materialize JS script but we need to move it to the bottom and put it into similar javascript block tags. Make the following changes:
-
-```html
-<!-- base.html -->
-<!-- Remove the Materialize JS script tag from the <head> section -->
-
-<!-- Add this section below the <footer> and above the closing <body> tag -->
-{% block javascript %}
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/js/materialize.min.js" integrity="sha256-SrBfGi+Zp2LhAvy9M1bWOCXztRU9Ztztxmu5BcYPcPE="
-        crossorigin="anonymous"></script>
-    
-    <script>
-        var dateEl = document.getElementById('id_date');
-        M.Datepicker.init(dateEl, {
-            format: 'yyyy-mm-dd',
-            defaultDate: new Date(),
-            setDefaultDate: true,
-            autoClose: true
-        });
-        // add additional JS to initialize select below
-        var selectEl = document.getElementById('id_meal');
-        M.FormSelect.init(selectEl);
-    </script>
-{% endblock javascript %}
-```
-
-We have added jQuery which is a dependency of this Python module. Then we've moved the Materialize CDN link down into this block. Finally, we added a chunk of code that performs some Materialize config. This is actually the bottom `<script>` block from `tamplates/cats/detail.html`. Now that we have added it to `base.html` we can remove it from the detail file:
-
-```html
-<!-- templates/cats/detail.html -->
-</div>
-
-<!-- Remove all of this code below -->
-<script>
-    var dateEl = document.getElementById('id_date');
-    M.Datepicker.init(dateEl, {
-        format: 'yyyy-mm-dd',
-        defaultDate: new Date(),
-        setDefaultDate: true,
-        autoClose: true
-    });
-    // add additional JS to initialize select below
-    var selectEl = document.getElementById('id_meal');
-    M.FormSelect.init(selectEl);
-</script>
-<!-- Remove all of this code above -->
-
-{% endblock %}
-```
-
-But this should be all we need to do. With this module present and being used on our page, we should be able to see a proper form. Restart the server and visit the Cat Create page. Yay! Now we can add multiple cat toys to any of our Cats.
+Save everything, restart the server if necessary and visit the Cat Create page. Yay! Now we can add multiple cat toys to any of our Cats.
 
 ## Add `cattoys` to the Cat detail page
 
-In the style of our detail pages so far, let's add another card to show toys. Right above the `for` block for the photos in `cats/detail.html`, add this code:
+In the style of our detail pages so far, let's add something to show toys. Right above the `for` block for the photos in `cats/detail.html`, add this code:
 
 ```html
 <!-- templates/cats/detail.html -->
 <!-- above section for photos -->
 ...
 {% for cattoy in cat.cattoys.all %}
-    <div class="card-panel teal-text center-align">{{cattoy.name}}, Color: {{cattoy.color}}</div>
+    <div>{{cattoy.name}}, Color: {{cattoy.color}}</div>
 {% empty %}
-    <div class="card-panel teal-text center-align">Cat Has No Toys :(</div>
+    <div>Cat Has No Toys :(</div>
 {% endfor %}
 ...
 ```
@@ -349,9 +257,9 @@ Because this is a many-to-many, it probably makes sense to show all the related 
         <!-- New Code below here -->
         Owned by:
         {% for cat in cattoy.cat_set.all %}
-            <div class="card-panel teal-text center-align">{{cat.name}}</div>
+            <div>{{cat.name}}</div>
         {% empty %}
-            <div class="card-panel teal-text center-align">Nobody Has This Toy</div>
+            <div>Nobody Has This Toy</div>
         {% endfor %}
         <!-- New Code above here -->
     </div>

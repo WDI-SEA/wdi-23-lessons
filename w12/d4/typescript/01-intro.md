@@ -10,7 +10,7 @@ ___
 
 # Why TypeScript?
 - Identifying bugs at compile time is better than finding them at runtime
-- type enforcement in large code bases reduces bugs across the organization/teams/time
+- Type enforcement in large code bases reduces bugs across the organization/teams/time
 - TypeScript allows ESNext syntax -- though many of the features highlighted by TS folks have been introduced with ES6 and 7
 - Lowish barrier to entry
     - can use it sparingly to start (your JS is probably fine, just add some typings or `any`)
@@ -139,6 +139,36 @@ let arrayOfAny: any[] = ['what','is','purpose','of','this','array','?!', 2, true
 ```
 Be careful when using the angle bracket notation as it can cause conflicts when working with TSX, the TypeScript equivalent of JSX.
 
+___
+## Typing Functions
+
+The format we used to add type constraints to our functions and methods is as follows:
+
+```typescript
+// function identifier(arg: type): returnType {}
+function myFunc(arg: string, arg2: number): string {
+    // myFunc logic
+    return 'The string';
+}
+
+const myArrowFunc = (arg:string, arg2: number): string[] => {
+    // logic
+    return ['','',''];
+}
+```
+
+If our function will not be returning anything, we can assign the return type `void`.
+
+```typescript
+function myVoidFunc(data: string[]): void {
+    data.forEach( (datum: string): void => {
+        console.log(datum)
+    })
+}
+
+```
+
+___
 ### Explicit vs Implicit Typing
 All this extra syntax making your headspin?
 

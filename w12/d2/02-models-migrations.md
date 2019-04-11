@@ -12,12 +12,12 @@ There are a few settings we need to edit in order to have Django connect to our 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': ('cats'),
+        'NAME': 'cats',
     }
 }
 ```
 
-This sets the database driver to be the one for Postgres and sets the name of the database (`cats`). We will create this database shortly. Before that, though, we will need to install another Python module to make Postgres work with Django. Open your terminal and enter this command:
+This sets the database driver to be the one for Postgres and sets the name of the database `cats`. We will create this database shortly. Before that, though, we will need to install another Python module to make Postgres work with Django. Open your terminal and enter this command:
 
 ```bash
 pip3 install psycopg2

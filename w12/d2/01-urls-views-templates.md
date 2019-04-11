@@ -48,7 +48,7 @@ Sometimes there are exceptions and sometimes the two types are interdependent. W
 3.  We have created a Django project but a project is not really an application. It is more of a way to organize one or many related smaller apps. In Django, we create a project and then we create our primary app inside it. Let's do that now with the manage.py utility `startapp` to create our first app inside our Django project:
 
 	```bash
-	python3 manage.py startapp main_app
+	django-admin startapp main_app
 	```
 
 	This will create a folder for `main_app` with many support files inside. Let's review some of the main ones:

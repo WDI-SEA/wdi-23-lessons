@@ -29,7 +29,8 @@ function isGoodDog(dog: DogObject): boolean {
     let {name, age, isGood} = dog;
     let message = `${name} is ${age} and is very good!${dog.wagsTail ? ' wag, wag, wag' : ''}`
     if (!isGood) {
-        console.log('How dare you?!')
+        console.log('How dare you! All dogs are good dogs!!')
+        dog.isGood = true
     }
     console.log(message)
     return true
@@ -42,15 +43,21 @@ let oneGoodBoy: DogObject = {
     wagsTail: true 
 }
 
-let barnCat = {
+let barnCat: object = {
     name: 'Scar Tatteredear',
     age: Infinity,
     clawedKiller: true,
     isGood: false
 }
 
-isGoodDog(oneGoodBoy) // ok! this will also work if we remove the explicit type on oneGoodBoy as it matches the shape exactly
-isGoodDog(barnCat) // Error, barnCat is not 'DogObject' type. Argument of type 'object' is not assignable to parameter of type 'DogObject'. Type '{}' is missing the following properties from type 'DogObject': name, age, isGood
+isGoodDog(oneGoodBoy) 
+// Works!
+isGoodDog(barnCat) 
+// Error, barnCat is not 'DogObject' type. Argument of type 'object' is not assignable to parameter 
+// of type 'DogObject'. Type '{}' is missing the following properties from type 'DogObject': 
+// name, age, isGood
+// If we removed the Explicit typing from barnCat, isGoodDog(barnCat) would work because barnCat 
+// has all the necessary values of the DogObject type
 
 
 ```
@@ -103,7 +110,10 @@ var colorString = Color[0] // evaluates to "Green"
 
 ![WTF](https://media.giphy.com/media/ukGm72ZLZvYfS/giphy.gif)
 
+If you want to know a bit more about this bizarre type and it's usage, check out [this medium article](https://medium.com/@KevinBGreene/typescript-enums-and-polymorphism-with-type-matching-fc3dc74b031c) and [this stack-overflow question](https://stackoverflow.com/questions/40275832/typescript-has-unions-so-are-enums-redundant). The tl;dr for most devs is that Enums can be iterated over, can be used as bit flags, and have some specific use cases, but you will mostly be using Union types.
+
 I'm not saying that there are not uses for an `enum` in the wild... but if you are using it to enforce typings like this without the need for reverse mapping of integers to values etc... you are likely better off using a Union type.
+
 ___
 ## `Generics<T>`
 

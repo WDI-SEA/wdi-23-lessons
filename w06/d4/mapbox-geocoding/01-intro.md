@@ -92,7 +92,7 @@ You're going to set up an app that allows users to search for a city and add the
 
 * Install `express`, `ejs`, `express-ejs-layouts`, and `method-override`.
 * Set up an `express` app that listens to port `8000`.
-* Add `ejs`, `express-ejs-layouts`, `body-parser`, and `method-override` middleware.
+* Add `ejs`, `express-ejs-layouts`, and `method-override` middleware.
 * Create your `views` folder that has your `layout.ejs`.
 
 ### Set up the database.

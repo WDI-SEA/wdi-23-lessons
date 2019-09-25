@@ -12,7 +12,6 @@ You will be building the classic hangman game in Python. In hangman, a secret wo
 * Prompt the user to enter a letter.
 * If the letter is in the word, mark it as revealed and visually display that letter in the word.
 * If the letter is incorrect, draw another part onto the stick person.
-* YOU MUST NOT WRITE FUNCTIONS! WRITE THIS ENTIRELY IMPERATIVELY! We will cover functions later. This is an exercise in writing imperative code. Imperative code is harder to reason about than functional code. You may use built-in functions but do not yet write your own.
 
 ## Hints
 
